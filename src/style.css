@@ -36,14 +36,24 @@ textarea {
 body {
   font-family: 'Uranus Pixel', 'ZCOOL KuaiLe', 'Courier New', Courier, monospace;
   background-color: var(--bg-color);
-  background-image: url('/hero-bg.png');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
   color: var(--text-main);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('/hero-bg.png');
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+  pointer-events: none;
 }
 
 img {
