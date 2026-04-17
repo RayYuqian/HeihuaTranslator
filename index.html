@@ -11,11 +11,19 @@
 <body>
   <div id="app">
     <header class="header">
-      <h1 class="title">🚀 互联网<span class="highlight">黑话</span>翻译器</h1>
-      <p class="subtitle">“赋能生态，打破壁垒，实现转化闭环”</p>
+      <div class="header-content">
+        <img src="/logo.png" alt="Logo" class="logo" />
+        <h1 class="title">互联网<span class="highlight">黑话</span>翻译器</h1>
+      </div>
+      <p class="subtitle">“探索大厂迷宫，解读古老语言”</p>
     </header>
 
     <main class="container">
+      <div class="intro-box">
+        <h2>📜 任务面板 (Quest Log)</h2>
+        <p>欢迎来到黑话深渊。在此冒险，你可以将任何无法理解的“赋能、闭环、抓手”等咒语，转化为人类能听懂的大白话。</p>
+      </div>
+
       <div class="translator-panel">
 
         <div class="input-section">
@@ -29,11 +37,15 @@
           <button id="swap-btn" class="icon-btn" title="切换方向">
             <svg width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
               <!-- 透明支撑底 -->
-              <rect width="48" height="48" fill="white" fill-opacity="0.01"/>
-              <path d="M42 19H5.99998" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M30 7L42 19" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M6.79897 29H42.799" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M6.79895 29L18.799 41" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+              <rect width="48" height="48" fill="white" fill-opacity="0.01" />
+              <path d="M42 19H5.99998" stroke="currentColor" stroke-width="4" stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path d="M30 7L42 19" stroke="currentColor" stroke-width="4" stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path d="M6.79897 29H42.799" stroke="currentColor" stroke-width="4" stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path d="M6.79895 29L18.799 41" stroke="currentColor" stroke-width="4" stroke-linecap="round"
+                stroke-linejoin="round" />
             </svg>
           </button>
           <button id="translate-btn" class="primary-btn">
@@ -57,10 +69,31 @@
         </div>
 
       </div>
+
+      <section class="features-section">
+        <div class="feature-card">
+          <img src="/icon.png" class="feature-icon" />
+          <h3>通天塔</h3>
+          <p>将艰涩的大厂黑话，通过AI引擎转化为通俗易懂的自然语言。</p>
+        </div>
+        <div class="feature-card">
+          <img src="/icon.png" class="feature-icon" />
+          <h3>时空逆转</h3>
+          <p>双向翻译能力：随时切换方向，学习如何使用黑话进行“向上管理”。</p>
+        </div>
+        <div class="feature-card">
+          <img src="/icon.png" class="feature-icon" />
+          <h3>上古卷轴</h3>
+          <p>附带考典查询：剖析词汇本源出处，掌握大厂造词哲学。</p>
+        </div>
+      </section>
+
     </main>
 
     <footer class="footer">
-      <p>内部自用工具 | 请勿外传 | <span id="error-message" class="error"></span></p>
+      <div class="footer-pixel-border">
+        <p>内部自用工具 | 请勿外传<span id="error-message" class="error"></span></p>
+      </div>
     </footer>
   </div>
   <script type="module" src="/src/main.ts"></script>

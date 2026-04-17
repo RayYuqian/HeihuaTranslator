@@ -33,13 +33,11 @@ function updateUI() {
     targetLabel.textContent = '大厂PPT黑话';
     sourceText.placeholder = '输入你想翻译的内容，比如：今天我们开个会...';
     btnText.textContent = '一键生成黑话';
-    document.documentElement.style.setProperty('--primary-color', '#FF6A00'); // Ali Orange
   } else {
     sourceLabel.textContent = '大厂PPT黑话';
     targetLabel.textContent = '大白话 (人话)';
     sourceText.placeholder = '输入你想翻译的内容，比如：咱们今天拉通对齐一下颗粒度...';
     btnText.textContent = '一键戳破黑话';
-    document.documentElement.style.setProperty('--primary-color', '#0052D9'); // Tencent Blue
   }
 }
 
@@ -51,6 +49,7 @@ function setupEventListeners() {
     const currentTargetTranslation = currentResult ? currentResult.translation : '';
     sourceText.value = currentTargetTranslation;
     targetText.innerHTML = '';
+    targetText.classList.remove('has-result');
     currentResult = null;
     
     // Add flip animation
@@ -139,6 +138,7 @@ function renderResult(result: TranslationResult) {
   }
 
   targetText.innerHTML = html;
+  targetText.classList.add('has-result');
 }
 
 // Start app
