@@ -3,7 +3,16 @@ import { HUMAN_TO_HEIHUA_PROMPT, HEIHUA_TO_HUMAN_PROMPT } from './prompts';
 const API_URL = 'https://openrouter.ai/api/v1/chat/completions';
 const MODEL = 'deepseek/deepseek-chat';
 
-export async function translateText(text: string, toHeihua: boolean, apiKey: string): Promise<string> {
+export interface TranslationResult {
+  translation: string;
+  explanations?: {
+    word: string;
+    meaning: string;
+    origin?: string;
+  }[];
+}
+
+export async function translateText(text: string, toHeihua: boolean, apiKey: string): Promise<TranslationResult> {
   if (!apiKey) {
     throw new Error('未配置 API Key，请检查 .env 文件。');
   }
@@ -30,6 +39,7 @@ export async function translateText(text: string, toHeihua: boolean, apiKey: str
           { role: 'user', content: text }
         ],
         temperature: 0.7,
+        response_format: { type: 'json_object' }
       })
     });
 
@@ -40,7 +50,18 @@ export async function translateText(text: string, toHeihua: boolean, apiKey: str
     }
 
     const data = await response.json();
-    return data.choices?.[0]?.message?.content || '未返回有效结果';
+    let content = data.choices?.[0]?.message?.content || '{}';
+    
+    // Some models still wrap JSON in markdown block even when told not to. Remove them.
+    content = content.replace(/^```(json)?/, '').replace(/```$/, '').trim();
+
+    try {
+      const parsed = JSON.parse(content);
+      return parsed as TranslationResult;
+    } catch (e) {
+      console.error('Failed to parse JSON out of content:', content);
+      throw new Error('模型返回的格式无法解析，请重试一遍。');
+    }
   } catch (error: any) {
     console.error('Translation error:', error);
     throw new Error(error.message || '网络请求异常，请检查网络连接或 API Key 设置。');

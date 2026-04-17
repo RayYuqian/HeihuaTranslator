@@ -1,5 +1,5 @@
 import './style.css';
-import { translateText } from './api';
+import { translateText, TranslationResult } from './api';
 
 // DOM Elements
 const sourceText = document.getElementById('source-text') as HTMLTextAreaElement;
@@ -15,6 +15,7 @@ const btnText = document.querySelector('.btn-text') as HTMLSpanElement;
 
 // State
 let isToHeihua = true;
+let currentResult: TranslationResult | null = null;
 const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY || '';
 
 // Initialization
@@ -45,12 +46,12 @@ function updateUI() {
 function setupEventListeners() {
   swapBtn.addEventListener('click', () => {
     isToHeihua = !isToHeihua;
-    // Swap contents if there is something
-    const currentSource = sourceText.value;
-    const currentTarget = targetText.textContent;
     
-    sourceText.value = currentTarget || '';
-    targetText.textContent = currentSource || '';
+    // Swap contents: put translation result into input box
+    const currentTargetTranslation = currentResult ? currentResult.translation : '';
+    sourceText.value = currentTargetTranslation;
+    targetText.innerHTML = '';
+    currentResult = null;
     
     // Add flip animation
     swapBtn.style.transform = isToHeihua ? 'rotate(0deg)' : 'rotate(180deg)';
@@ -72,7 +73,8 @@ function setupEventListeners() {
 
     try {
       const result = await translateText(text, isToHeihua, apiKey);
-      targetText.textContent = result;
+      currentResult = result;
+      renderResult(result);
     } catch (error: any) {
       showError(error.message);
       targetText.textContent = '翻译失败，请看页面底部错误提示。';
@@ -82,13 +84,19 @@ function setupEventListeners() {
   });
 
   copyBtn.addEventListener('click', () => {
-    const text = targetText.textContent;
-    if (!text) {
+    if (!currentResult) {
       showError('没有可以复制的内容');
       return;
     }
     
-    navigator.clipboard.writeText(text).then(() => {
+    let textToCopy = currentResult.translation;
+    if (currentResult.explanations && currentResult.explanations.length > 0) {
+      textToCopy += '\\n\\n【附知识点】\\n' + currentResult.explanations.map(e => 
+        e.word + ': ' + e.meaning + (e.origin ? ' (典故：' + e.origin + ')' : '')
+      ).join('\\n');
+    }
+    
+    navigator.clipboard.writeText(textToCopy).then(() => {
       const originalTitle = copyBtn.title;
       copyBtn.title = '复制成功！';
       setTimeout(() => {
@@ -109,6 +117,28 @@ function setLoading(isLoading: boolean) {
 
 function showError(msg: string) {
   errorMessage.textContent = msg;
+}
+
+function renderResult(result: TranslationResult) {
+  let html = '<div class="result-card"><h3 class="card-title">翻译结果</h3><p class="card-content">' + 
+    result.translation.replace(/\\n/g, '<br>') + '</p></div>';
+
+  if (result.explanations && result.explanations.length > 0) {
+    html += '<div class="result-card"><h3 class="card-title">知识点讲解</h3><div class="card-list">';
+    html += result.explanations.map(exp => {
+      let itemHtml = '<div class="explanation-item">';
+      itemHtml += '<h4 class="word">' + exp.word + '</h4>';
+      itemHtml += '<p><strong>含义：</strong>' + exp.meaning + '</p>';
+      if (exp.origin) {
+        itemHtml += '<p class="origin"><strong>典故：</strong>' + exp.origin + '</p>';
+      }
+      itemHtml += '</div>';
+      return itemHtml;
+    }).join('');
+    html += '</div></div>';
+  }
+
+  targetText.innerHTML = html;
 }
 
 // Start app

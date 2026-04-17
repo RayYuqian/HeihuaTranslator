@@ -66,18 +66,11 @@ body {
   background: var(--surface-color);
   border-radius: var(--radius);
   box-shadow: var(--shadow-md);
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 1.5rem;
   padding: 1.5rem;
   align-items: stretch;
-}
-
-@media (max-width: 768px) {
-  .translator-panel {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto;
-  }
 }
 
 .input-section, .output-section {
@@ -101,7 +94,7 @@ body {
 
 textarea, .output-box {
   flex: 1;
-  min-height: 300px;
+  min-height: 150px;
   width: 100%;
   padding: 1rem;
   border: 1px solid var(--border-color);
@@ -126,6 +119,12 @@ textarea:focus {
   white-space: pre-wrap;
 }
 
+.output-box:has(.result-card) {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+}
+
 .output-box:empty:before {
   content: attr(placeholder);
   color: #999;
@@ -133,7 +132,7 @@ textarea:focus {
 
 .controls-section {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   gap: 1.5rem;
@@ -213,4 +212,65 @@ textarea:focus {
 .error {
   color: var(--error);
   margin-left: 10px;
+}
+
+/* Card UI Styles */
+.result-card {
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.result-card:last-child {
+  margin-bottom: 0;
+}
+
+.card-title {
+  color: var(--primary-color);
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 0.5rem;
+  display: inline-block;
+}
+
+.card-content {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+.card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.explanation-item {
+  background: var(--bg-color);
+  border-left: 4px solid var(--primary-color);
+  padding: 1rem;
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.explanation-item .word {
+  color: var(--primary-color);
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.explanation-item p {
+  font-size: 0.95rem;
+  color: var(--text-main);
+  line-height: 1.5;
+  margin-bottom: 0.25rem;
+}
+
+.explanation-item .origin {
+  color: var(--text-secondary);
+  font-style: italic;
+  margin-top: 0.5rem;
 }
