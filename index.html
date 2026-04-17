@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>互联网黑话翻译器</title>
+</head>
+
+<body>
+  <div id="app">
+    <header class="header">
+      <h1 class="title">🚀 互联网<span class="highlight">黑话</span>翻译器</h1>
+      <p class="subtitle">“赋能生态，打破壁垒，实现转化闭环”</p>
+    </header>
+
+    <main class="container">
+      <div class="translator-panel">
+
+        <div class="input-section">
+          <div class="section-header">
+            <span id="source-label" class="label">大白话 (人话)</span>
+          </div>
+          <textarea id="source-text" placeholder="输入你想翻译的内容，比如：今天我们开个会..."></textarea>
+        </div>
+
+        <div class="controls-section">
+          <button id="swap-btn" class="icon-btn" title="切换方向">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 3h5v5" />
+              <path d="M8 3H3v5" />
+              <path d="M12 22v-8" />
+              <path d="M21 3l-6 6" />
+              <path d="M3 3l6 6" />
+              <path d="M21 21l-6-6" />
+              <path d="M3 21l6-6" />
+              <path d="M16 21h5v-5" />
+              <path d="M8 21H3v-5" />
+            </svg>
+          </button>
+          <button id="translate-btn" class="primary-btn">
+            <span class="btn-text">一键生成黑话</span>
+            <div class="loader" id="loader" style="display: none;"></div>
+          </button>
+        </div>
+
+        <div class="output-section">
+          <div class="section-header">
+            <span id="target-label" class="label">大厂PPT黑话</span>
+            <button id="copy-btn" class="icon-btn" title="复制">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+            </button>
+          </div>
+          <div id="target-text" class="output-box" placeholder="翻译结果会在这里展示..."></div>
+        </div>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>内部自用工具 | 请勿外传 | <span id="error-message" class="error"></span></p>
+    </footer>
+  </div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
+</html>
